@@ -38,6 +38,7 @@ class MainFragment : Fragment() {
         btnGenerate.setOnClickListener {
             validate(view)
             if(validationSuccessful) {
+                //go to the map fragment
                 findNavController().navigate(R.id.action_mainFragment_to_googleMapFragment)
             }
         }
@@ -50,6 +51,10 @@ class MainFragment : Fragment() {
 
     //Function to validate the input from the screen
     private fun validate(view: View) {
+
+        transportType = ""
+        express= ""
+        mykiTopup=""
 
         //flags for logic
         var flag1 = true
