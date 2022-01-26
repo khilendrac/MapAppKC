@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".presentation.MainFragment">
+
+    <TextView
+        android:id="@+id/lblScreenText"
+        android:layout_width="173dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/googleMapsByKC"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/kclogo"
+        android:layout_width="24dp"
+        android:layout_height="22dp"
+        android:src="@drawable/kclogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnGenerate"
+        android:layout_width="95dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/googlelogo"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupMyki"
+        app:layout_constraintVertical_bias="0.439"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/lblTransportType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/transportType"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblScreenText" />
+
+    <TextView
+        android:id="@+id/lblExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="84dp"
+        android:text="@string/express"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTransportType" />
+
+    <TextView
+        android:id="@+id/lblHasMyki"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="84dp"
+        android:text="@string/mykitopup"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblExp" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupTransportType"
+        android:layout_width="176dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="108dp"
+        app:layout_constraintStart_toEndOf="@+id/lblTransportType"
+        app:layout_constraintTop_toBottomOf="@+id/lblScreenText">
+
+        <RadioButton
+            android:id="@+id/radioTransportTypeTrain"
+            android:layout_width="74dp"
+            android:layout_height="28dp"
+            android:text="@string/Train"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:text="@string/Train" />
+
+        <RadioButton
+            android:id="@+id/radioTransportTypeTram"
+            android:layout_width="75dp"
+            android:layout_height="22dp"
+            android:text="@string/Tram"
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:text="@string/Tram" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroupExpress"
+        android:layout_width="180dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintStart_toEndOf="@+id/lblExp"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupTransportType">
+
+        <RadioButton
+            android:id="@+id/radioExpressYes"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="@string/Yes"
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/radioExpressNo"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:text="@string/No"
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroupMyki"
+        android:layout_width="175dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toEndOf="@+id/lblHasMyki"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupExpress">
+
+        <RadioButton
+            android:id="@+id/radioMykiYes"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="@string/Yes"
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <RadioButton
+            android:id="@+id/radioMykiNo"
+            android:layout_width="52dp"
+            android:layout_height="28dp"
+            android:text="@string/No"
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/lblGenerate"
+        android:layout_width="247dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/genMap"
+        android:textColor="?android:attr/colorPressedHighlight"
+        app:layout_constraintBottom_toTopOf="@+id/btnGenerate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupMyki"
+        app:layout_constraintVertical_bias="0.633" />
+
+    <TextView
+        android:id="@+id/errorMessage"
+        android:layout_width="246dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="47dp"
+        android:text=""
+        android:textColor="@color/design_default_color_error"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupTransportType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblScreenText"
+        app:layout_constraintVertical_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

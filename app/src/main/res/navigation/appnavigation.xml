@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appnavigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.khilendra.mapappkc.presentation.MainFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_googleMapFragment"
+            app:destination="@id/googleMapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/googleMapFragment"
+        android:name="com.example.khilendra.mapappkc.presentation.GoogleMapFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_google_map">
+        <action
+            android:id="@+id/action_googleMapFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
