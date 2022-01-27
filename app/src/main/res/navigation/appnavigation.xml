@@ -24,5 +24,14 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="transType"
+            app:argType="string" />
+        <argument
+            android:name="expressOrNot"
+            app:argType="string" />
+        <argument
+            android:name="hasMykiTopUp"
+            app:argType="string" />
     </fragment>
 </navigation>

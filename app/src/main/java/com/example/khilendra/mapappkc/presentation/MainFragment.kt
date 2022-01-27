@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.khilendra.mapappkc.R
 
@@ -38,8 +39,14 @@ class MainFragment : Fragment() {
         btnGenerate.setOnClickListener {
             validate(view)
             if(validationSuccessful) {
+
+
                 //go to the map fragment
-                findNavController().navigate(R.id.action_mainFragment_to_googleMapFragment)
+                findNavController().navigate(R.id.action_mainFragment_to_googleMapFragment, Bundle().apply {
+                    putString("transType", transportType)
+                    putString("expressOrNot", express)
+                    putString("hasMykiTopUp", mykiTopup)
+                })
             }
         }
 

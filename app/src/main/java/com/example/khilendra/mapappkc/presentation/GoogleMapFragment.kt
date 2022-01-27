@@ -19,6 +19,12 @@ class GoogleMapFragment : Fragment() {
     private lateinit var mMap : GoogleMap
     private var mapReady = false
 
+    //Values being received from main screen
+    private lateinit var transportType: String
+    private lateinit var expressOrNot: String
+    private lateinit var hasMykiTopUpOrNot: String
+
+
 
 
     override fun onCreateView(
@@ -27,6 +33,15 @@ class GoogleMapFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var rootView = inflater.inflate(R.layout.fragment_google_map, container, false)
+
+        //Receiving the data from the initial screen
+        transportType = requireArguments().getString("transType").toString()
+        expressOrNot = requireArguments().getString("expressOrNot").toString()
+        hasMykiTopUpOrNot = requireArguments().getString("hasMykiTopUp").toString()
+
+
+
+
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.googleMapFragment) as SupportMapFragment
 
