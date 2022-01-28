@@ -1,17 +1,13 @@
 <resources>
     <string name="app_name">GoogleAppKC</string>
     <string name="googleMapsByKC">Google Maps by KC</string>
-    <string name="generate">Generate</string>
     <string name="transportType">Transport Type:</string>
     <string name="express">Express:</string>
-    <string name="myki">"Myki Top Up: "</string>
     <string name="mykitopup">Myki Topup:</string>
     <string name="Train">Train</string>
     <string name="Tram">Tram</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <string name="genMap">Click below to generate the Map:</string>
-    <string name="title_activity_maps">MapsActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
