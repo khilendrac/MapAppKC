@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/googleMapFragment"
         android:name="com.example.khilendra.mapappkc.presentation.GoogleMapFragment"
-        android:label="Map"
+        android:label="Departures"
         tools:layout="@layout/fragment_google_map">
         <action
             android:id="@+id/action_googleMapFragment_to_mainFragment"
