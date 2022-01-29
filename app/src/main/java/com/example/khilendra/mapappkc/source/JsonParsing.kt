@@ -1,27 +1,17 @@
 package com.example.khilendra.mapappkc.source
 
-import android.content.Context
-import android.hardware.Camera.open
-import android.location.Location
-import android.os.ParcelFileDescriptor.open
-import android.system.Os.open
 import com.example.khilendra.mapappkc.data.LocationMelbourne
-import org.json.JSONObject
-import java.io.InputStream
-import org.json.JSONException
-import java.io.IOException
-import java.nio.charset.Charset
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.khilendra.mapappkc.presentation.MainActivity
 
 
 import kotlin.collections.ArrayList as ArrayList
+
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.io.File
-import java.nio.channels.AsynchronousFileChannel.open
-import java.nio.channels.AsynchronousSocketChannel.open
-import java.nio.channels.FileChannel.open
-import java.nio.channels.ServerSocketChannel.open
+
+
 
 class JsonParsing{
 
@@ -38,6 +28,59 @@ class JsonParsing{
         return locations
 
     }
+    /*
+
+
+    fun test() {
+        val mapper = jacksonObjectMapper()
+        mapper.registerKotlinModule()
+        mapper.registerModule(JavaTimeModule())
+
+        val jsonString: String = File("/src/main/resources/data.json").readText(Charsets.UTF_8)
+        val jsonTextList:List<LocationMelbourne> = mapper.readValue<List<LocationMelbourne>>(jsonString)
+        for (film in jsonTextList) {
+
+        }
+
+    }
+
+     */
+/*
+
+    private fun handleJson(jsonString: String?) {
+
+        val jsonArray = JSONArray(jsonString)
+        val list: ArrayList<LocationMelbourne> = ArrayList<LocationMelbourne>()
+
+
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            list.add(LocationMelbourne(
+                jsonObject.getInt("typeId"),
+                jsonObject.getString("departureTime"),
+                jsonObject.getString("name"),
+                jsonObject.getDouble("latitude"),
+                jsonObject.getDouble("longitude"),
+                jsonObject.getString("isExpress"),
+                jsonObject.getString("hasMyKiTopUp")
+
+            ))
+
+        }
+
+        locations = list
+
+
+    }
+
+
+
+ */
+
+
+
+
+
     /*
 
     private fun readJSON() {
@@ -86,8 +129,8 @@ class JsonParsing{
             "Flinders",
             -37.8181755,
             144.9661256,
-            "false",
-            "false"
+            "",
+            ""
         )
         var loc2: LocationMelbourne = LocationMelbourne(
             0,
@@ -159,7 +202,7 @@ class JsonParsing{
             -37.806718,
             144.9574589,
             "",
-            "True"
+            "true"
         )
         var loc10: LocationMelbourne = LocationMelbourne(
             1,
@@ -168,7 +211,7 @@ class JsonParsing{
             -37.8049684,
             144.9572112,
             "",
-            "True"
+            "true"
         )
         var loc11: LocationMelbourne = LocationMelbourne(
             1,
@@ -177,7 +220,7 @@ class JsonParsing{
             -37.8862515,
             145.0807788,
             "",
-            "True"
+            "true"
         )
         var loc12: LocationMelbourne = LocationMelbourne(
             1,
@@ -186,16 +229,16 @@ class JsonParsing{
             -37.8771484,
             145.0427026,
             "",
-            "True"
+            "true"
         )
         var loc13: LocationMelbourne = LocationMelbourne(
-            0,
+            1,
             "2021-07-08T16:00:00.000Z",
             "Brighton Beach",
             -37.9265405,
             144.9868176,
             "",
-            "False"
+            "false"
         )
 
 
@@ -225,3 +268,5 @@ class JsonParsing{
 
 
 }
+
+
