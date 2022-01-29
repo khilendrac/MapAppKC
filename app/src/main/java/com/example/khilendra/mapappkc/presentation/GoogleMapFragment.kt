@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.khilendra.mapappkc.R
 import com.example.khilendra.mapappkc.data.LocationMelbourne
@@ -15,12 +14,15 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+
 import java.time.LocalDate
+
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+
 import kotlin.collections.ArrayList
-import android.widget.Toast.makeText as makeText
+
 
 
 class GoogleMapFragment : Fragment() {
@@ -47,15 +49,29 @@ class GoogleMapFragment : Fragment() {
         var rootView = inflater.inflate(R.layout.fragment_google_map, container, false)
 
 
-
-
-
-
-
         //Receiving the data from the initial screen
         transportType = requireArguments().getString("transType").toString()
         expressOrNot = requireArguments().getString("expressOrNot").toString()
         hasMykiTopUpOrNot = requireArguments().getString("hasMykiTopUp").toString()
+
+
+        if(expressOrNot=="Yes") {
+            expressOrNot = "true"
+
+        } else {
+            expressOrNot = "false"
+
+        }
+
+
+        if(hasMykiTopUpOrNot=="Yes") {
+            hasMykiTopUpOrNot = "true"
+
+        } else {
+            hasMykiTopUpOrNot = "false"
+
+        }
+
 
         //Configuring the view model
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -82,14 +98,8 @@ class GoogleMapFragment : Fragment() {
 
         var transportationType: String
 
-
         var currentDate = LocalDate.now()
         var currentTime = LocalTime.now()
-
-        var formatter1 = DateTimeFormatter.ofPattern("dd-MMM-YYYY")
-        var formattedDate = currentDate.format(formatter1)
-
-        var formattedTime = currentTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
 
 
@@ -115,31 +125,45 @@ class GoogleMapFragment : Fragment() {
                 hasMyki = location.hasMyKiTopUp
                 transType = location.typeId
 
+
                 if (transType == 0) {
                     transportationType = "Train"
 
                 } else {
                     transportationType = "Tram"
+                }
+
+                if(isExpress == "") {
+                    isExpress = "false"
+                }
+                if(hasMyki == "") {
+                    hasMyki = "false"
+                }
+
+                var formatter = DateTimeFormatter.ofPattern("dd-MMM-YYYY")
+                var formattedDate = currentDate.format(formatter)
+
+                var formattedTime = currentTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+
+                if(transportType == transportationType && expressOrNot == isExpress && hasMykiTopUpOrNot == hasMyki) {
+                    //Setting up the latitudes and longitudes
+                    val marker = LatLng(latitude,longitude)
+                    //Positioning the map
+
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(marker)
+                            .title("$name($transportationType)")
+                            .snippet("$formattedDate, $formattedTime")
+                    )
+
+                    //Zooming to the coordinates
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 11f))
 
                 }
 
 
-                //Setting up the latitudes and longitudes
-                val marker = LatLng(latitude,longitude)
-                //Positioning the map
-
-
-
-                mMap.addMarker(
-                    MarkerOptions()
-                        .position(marker)
-                        .title("$name($transportationType)")
-                        .snippet("$formattedDate, $formattedTime")
-                )
-
-
-                //Zooming to the coordinates
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 11f))
 
             }
 
