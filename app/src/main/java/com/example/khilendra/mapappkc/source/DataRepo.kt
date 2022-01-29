@@ -4,7 +4,7 @@ import com.example.khilendra.mapappkc.data.LocationMelbourne
 
 class DataRepo (private val jsonParsing: JsonParsing) {
 
-    fun getLocations(): ArrayList<LocationMelbourne> {
+    fun getLocations(locationName: String): ArrayList<LocationMelbourne> {
         return jsonParsing.getLocations()
     }
 

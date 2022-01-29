@@ -1,6 +1,6 @@
 package com.example.khilendra.mapappkc.presentation
 
-import MainViewModel
+import com.example.khilendra.mapappkc.MainViewModel
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

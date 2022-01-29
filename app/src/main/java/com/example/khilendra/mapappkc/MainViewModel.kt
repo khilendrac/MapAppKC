@@ -1,3 +1,5 @@
+package com.example.khilendra.mapappkc
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.khilendra.mapappkc.data.LocationMelbourne
@@ -16,7 +18,7 @@ class MainViewModel: ViewModel() {
         fetchLocations("e")
     }
     fun fetchLocations(locationName: String) {
-        locations = dataRepository.getLocations()
+        locations = dataRepository.getLocations(locationName)
         //locations = locationService.fetchLocations(locationName)
     }
 
