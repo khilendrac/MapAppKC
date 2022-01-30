@@ -14,13 +14,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-
 import java.time.LocalDate
-
 import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-
 import kotlin.collections.ArrayList
 
 
@@ -38,7 +36,7 @@ class GoogleMapFragment : Fragment() {
     private lateinit var locations: ArrayList<LocationMelbourne>
     private lateinit var viewModel : MainViewModel
 
-    private lateinit var testText: String
+
 
 
     override fun onCreateView(
@@ -140,10 +138,49 @@ class GoogleMapFragment : Fragment() {
                     hasMyki = "false"
                 }
 
-                var formatter = DateTimeFormatter.ofPattern("dd-MMM-YYYY")
-                var formattedDate = currentDate.format(formatter)
 
-                var formattedTime = currentTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                //Getting the time zone and setting it up
+
+                val dt = ZonedDateTime.parse(departureTime)
+
+
+
+
+
+                var timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+                var time = dt.format(timeFormatter).format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+
+
+
+                var dayFormatter = DateTimeFormatter.ofPattern("dd")
+                var day = dt.format(dayFormatter).toInt()
+
+
+                var pattern = "dd MM YYYY"
+                val suffix = getDayOfMonthSuffix(day)
+
+
+                if(suffix == "st") {
+                    pattern = "d'st' MMM YYYY"
+
+                } else if (suffix == "th") {
+                    pattern = "d'th' MMM YYYY"
+
+                } else if (suffix == "nd") {
+                    pattern = "d'nd' MMM YYYY"
+
+                } else if (suffix == "rd") {
+                    pattern = "d'rd' MMM YYYY"
+
+                }
+
+
+
+
+                var dateFormatter = DateTimeFormatter.ofPattern(pattern)
+
+                var date = dt.format(dateFormatter)
+                print(date)
 
 
                 if(transportType == transportationType && expressOrNot == isExpress && hasMykiTopUpOrNot == hasMyki) {
@@ -155,11 +192,11 @@ class GoogleMapFragment : Fragment() {
                         MarkerOptions()
                             .position(marker)
                             .title("$name($transportationType)")
-                            .snippet("$formattedDate, $formattedTime")
+                            .snippet("$date, $time")
                     )
 
                     //Zooming to the coordinates
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 11f))
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 9f))
 
                 }
 
@@ -181,6 +218,24 @@ class GoogleMapFragment : Fragment() {
         }
 
     }
+
+
+
+    fun getDayOfMonthSuffix(n: Int): String {
+        if (n % 100 / 10 == 1) {
+            return "th"
+        } else
+            when (n % 10) {
+                1 -> return "st"
+                2 -> return "nd"
+                3 -> return "rd"
+                else -> return "th"
+            }
+
+    }
+
+
+
 
 }
 
