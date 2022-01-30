@@ -9,16 +9,19 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.khilendra.mapappkc.R
 import com.example.khilendra.mapappkc.data.LocationMelbourne
+import com.example.khilendra.mapappkc.source.JsonParsing
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.timepicker.TimeFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.util.logging.SimpleFormatter
 import kotlin.collections.ArrayList
 
 
@@ -53,6 +56,7 @@ class GoogleMapFragment : Fragment() {
         hasMykiTopUpOrNot = requireArguments().getString("hasMykiTopUp").toString()
 
 
+        //Changing the values in order to work with logics
         if(expressOrNot=="Yes") {
             expressOrNot = "true"
 
@@ -71,10 +75,16 @@ class GoogleMapFragment : Fragment() {
         }
 
 
+        //Passing the context from container to JsonParsing class in order to use the json file from assets folder
+        if (container != null) {
+            JsonParsing.Companion.setContext(container.getContext())
+        }
+
+
         //Configuring the view model
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        //Getting locations from the view model
+        //Getting locations as arraylist from the view model
         locations = viewModel.locations
 
 
@@ -92,8 +102,17 @@ class GoogleMapFragment : Fragment() {
     }
 
 
+
+
+
+
+
+
+
+    //Function ot update the map
     private fun updateMap() {
 
+        //Initializing some variables required for the map
         var transportationType: String
 
         var currentDate = LocalDate.now()
@@ -111,8 +130,10 @@ class GoogleMapFragment : Fragment() {
 
         var counter: Int = 0
 
+        //Run the code only when the map is ready
         if(mapReady) {
 
+            //Pulling details from the arraylist grabbed from the view model
             locations.forEach {
                 location ->
                 latitude = location.latitude
@@ -124,12 +145,16 @@ class GoogleMapFragment : Fragment() {
                 transType = location.typeId
 
 
+                //Logic to set the transportation type from id as integer
                 if (transType == 0) {
                     transportationType = "Train"
 
                 } else {
                     transportationType = "Tram"
                 }
+
+
+                //Logic to set isExpress and hasMykiTopUp from boolean types
 
                 if(isExpress == "") {
                     isExpress = "false"
@@ -140,17 +165,14 @@ class GoogleMapFragment : Fragment() {
 
 
                 //Getting the time zone and setting it up
-
                 val dt = ZonedDateTime.parse(departureTime)
 
-
-
-
-
+                //Formatting the date and time to display in the map
                 var timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
-                var time = dt.format(timeFormatter).format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                var time = dt.format(timeFormatter)
 
 
+                var dtime = currentTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
 
                 var dayFormatter = DateTimeFormatter.ofPattern("dd")
                 var day = dt.format(dayFormatter).toInt()
@@ -160,6 +182,7 @@ class GoogleMapFragment : Fragment() {
                 val suffix = getDayOfMonthSuffix(day)
 
 
+                //Setting up the suffix for the date
                 if(suffix == "st") {
                     pattern = "d'st' MMM YYYY"
 
@@ -174,15 +197,14 @@ class GoogleMapFragment : Fragment() {
 
                 }
 
-
-
-
+                //Formatting the date
                 var dateFormatter = DateTimeFormatter.ofPattern(pattern)
 
                 var date = dt.format(dateFormatter)
-                print(date)
 
 
+
+                //Condition to check if the user selection from the screen matches the data from json file fetched via Model View
                 if(transportType == transportationType && expressOrNot == isExpress && hasMykiTopUpOrNot == hasMyki) {
                     //Setting up the latitudes and longitudes
                     val marker = LatLng(latitude,longitude)
@@ -197,10 +219,7 @@ class GoogleMapFragment : Fragment() {
 
                     //Zooming to the coordinates
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 9f))
-
                 }
-
-
 
             }
 
@@ -221,6 +240,7 @@ class GoogleMapFragment : Fragment() {
 
 
 
+    //Function to setup the suffix for the date
     fun getDayOfMonthSuffix(n: Int): String {
         if (n % 100 / 10 == 1) {
             return "th"
