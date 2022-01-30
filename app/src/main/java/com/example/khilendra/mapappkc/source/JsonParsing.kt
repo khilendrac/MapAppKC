@@ -1,96 +1,111 @@
 package com.example.khilendra.mapappkc.source
-
+import android.content.Context
 import com.example.khilendra.mapappkc.data.LocationMelbourne
-
-
 import kotlin.collections.ArrayList as ArrayList
-
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import java.io.File
-
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+import java.nio.charset.Charset
 
 
 class JsonParsing{
 
-
+    //ArrayList of the locations which is passed to GoogleMapFragment via View Model
     private lateinit var locations: ArrayList<LocationMelbourne>
-    //private lateinit var locs: MutableCollection<ArrayList<LocationMelbourne>>
 
+
+    //This object receives Context from container in order to access the json file from assets folder
+    companion object {
+        private lateinit var context: Context
+        fun setContext(con: Context) {
+            context=con
+        }
+    }
+
+
+
+    //Main function which returns the locations to model view
     fun getLocations(): ArrayList<LocationMelbourne> {
+        //setLocations()
 
+        //function to read the json file
+        readJSON()
 
-        setLocations()
-
-
+        //Finally return the locations
         return locations
-
-    }
-    /*
-
-
-    fun test() {
-        val mapper = jacksonObjectMapper()
-        mapper.registerKotlinModule()
-        mapper.registerModule(JavaTimeModule())
-
-        val jsonString: String = File("/src/main/resources/data.json").readText(Charsets.UTF_8)
-        val jsonTextList:List<LocationMelbourne> = mapper.readValue<List<LocationMelbourne>>(jsonString)
-        for (film in jsonTextList) {
-
-        }
-
     }
 
-     */
-/*
-
-    private fun handleJson(jsonString: String?) {
-
-        val jsonArray = JSONArray(jsonString)
-        val list: ArrayList<LocationMelbourne> = ArrayList<LocationMelbourne>()
-
-
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-            list.add(LocationMelbourne(
-                jsonObject.getInt("typeId"),
-                jsonObject.getString("departureTime"),
-                jsonObject.getString("name"),
-                jsonObject.getDouble("latitude"),
-                jsonObject.getDouble("longitude"),
-                jsonObject.getString("isExpress"),
-                jsonObject.getString("hasMyKiTopUp")
-
-            ))
-
-        }
-
-        locations = list
-
-
-    }
-
-
-
- */
-
-
-
-
-
-    /*
 
     private fun readJSON() {
 
-        try {
-            val obj = JSONObject(loadJSONFromAsset())
-            val userArray = obj.getJSONArray("users")
-            for (i in 0 until userArray.length()) {
+        //Declaring list and objects
 
+        var list: ArrayList<LocationMelbourne> = ArrayList<LocationMelbourne>()
+        lateinit var loc:LocationMelbourne
+        try {
+            //Getting json object from LoadJSONFromAsset function and assigning it to array
+            val obj = JSONObject(loadJSONFromAsset())
+            val userArray = obj.getJSONArray("data")
+
+            //Looping for each objects in array and assigning them into variables
+            for (i in 0 until userArray.length()) {
+                val jsonObject = userArray.getJSONObject(i)
+
+
+                var typeId = jsonObject.getInt("typeId")
+                var departureTime = jsonObject.getString("departureTime")
+                var name = jsonObject.getString("name")
+                var latitude = jsonObject.getDouble("latitude")
+                var longitude = jsonObject.getDouble("longitude")
+
+
+                //These three values are sometimes not present in json file therefore initializing them with blank
+                var isExpress:String = ""
+                var hasMyKiTopUp:String = ""
+                var route:String = ""
+
+                //Implementing try catch for those three values and assigning them "" value when they are not present in json file
+                try{
+                    isExpress = jsonObject.getString("isExpress")
+                } catch (e: JSONException) {
+                        isExpress = ""
+                }
+                try{
+                    hasMyKiTopUp = jsonObject.getString("hasMyKiTopUp")
+                } catch (e: JSONException) {
+                    hasMyKiTopUp = ""
+                }
+                try{
+                    route = jsonObject.getString("route")
+                } catch (e: JSONException) {
+                    route = ""
+                }
+
+                // creating location object from above details for a single line
+                loc = LocationMelbourne(
+                    typeId,
+                    departureTime,
+                    name,
+                    latitude,
+                    longitude,
+                    isExpress,
+                    hasMyKiTopUp
+                )
+
+
+                //Logic to know if it is running for the first time
+                if(i==0) {
+                    //if first time, create an array list of the object
+                    list = arrayListOf(loc)
+                } else {
+                    //if not the first time, add the location object to the list
+                    list.add(loc)
+
+                }
             }
+
+            //Finally assign the list to the main list accessible to return
+            locations = list
         }
         catch (e: JSONException) {
             e.printStackTrace()
@@ -98,13 +113,12 @@ class JsonParsing{
     }
 
 
-
-
+    //Function to load the json file and return object
     private fun loadJSONFromAsset(): String {
         val json: String?
         try {
-
-            //val inputStream = assets.open("data.json",0)
+            //This is the context which was passed from google map fragment
+            val inputStream = context.assets.open("data.json")
             val size = inputStream.available()
             val buffer = ByteArray(size)
             val charset: Charset = Charsets.UTF_8
@@ -120,8 +134,11 @@ class JsonParsing{
     }
 
 
-     */
 
+
+
+    //Manually set up the location details in order to run the program when I was having issues with reading json file
+    //Not using this anymore, just left for a reference
     private fun setLocations() {
         var loc1: LocationMelbourne = LocationMelbourne(
             0,
@@ -241,9 +258,6 @@ class JsonParsing{
             "false"
         )
 
-
-
-
         //Adding initial location in the arraylist
         locations = arrayListOf(loc1)
 
@@ -260,8 +274,6 @@ class JsonParsing{
         locations.add(loc11)
         locations.add(loc12)
         locations.add(loc13)
-
-
 
     }
 

@@ -10,16 +10,23 @@ class MainViewModel: ViewModel() {
      lateinit var locations: ArrayList<LocationMelbourne>
 
 
-    //var locationService: LocationService = LocationService()
 
+
+     //Getting locations details from the repository and passing the class JsonParsing
     private val dataRepository: DataRepo = DataRepo(JsonParsing())
 
     init {
+        //This is to initialize the model
         fetchLocations("e")
     }
     fun fetchLocations(locationName: String) {
+        //Get locations from DataRepo class
         locations = dataRepository.getLocations(locationName)
-        //locations = locationService.fetchLocations(locationName)
+
     }
+
+
+
+
 
 }
