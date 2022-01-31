@@ -14,11 +14,29 @@ class JsonParsing{
     private lateinit var locations: ArrayList<LocationMelbourne>
 
 
+
     //This object receives Context from container in order to access the json file from assets folder
     companion object {
         private lateinit var context: Context
+
+        private lateinit var trnsType: String
+        private lateinit var isExp: String
+        private lateinit var hasMyki: String
+        private var typeID: Int = 0
         fun setContext(con: Context) {
             context=con
+        }
+
+        //Function to get the variables from GoogleMap Fragment
+        fun setVariables(trtyp: String, exp: String, hasMy: String) {
+            trnsType = trtyp
+            if(trnsType == "Train") {
+                typeID = 0
+            } else {
+                typeID = 1
+            }
+            isExp = exp
+            hasMyki = hasMy
         }
     }
 
@@ -68,12 +86,12 @@ class JsonParsing{
                 try{
                     isExpress = jsonObject.getString("isExpress")
                 } catch (e: JSONException) {
-                        isExpress = ""
+                        isExpress = "false"
                 }
                 try{
                     hasMyKiTopUp = jsonObject.getString("hasMyKiTopUp")
                 } catch (e: JSONException) {
-                    hasMyKiTopUp = ""
+                    hasMyKiTopUp = "false"
                 }
                 try{
                     route = jsonObject.getString("route")
@@ -81,27 +99,35 @@ class JsonParsing{
                     route = ""
                 }
 
-                // creating location object from above details for a single line
-                loc = LocationMelbourne(
-                    typeId,
-                    departureTime,
-                    name,
-                    latitude,
-                    longitude,
-                    isExpress,
-                    hasMyKiTopUp
-                )
+                //Condition to filter out the selection of data as selected by the user in the screen
+                if(typeID == typeId && isExp == isExpress
+                    && hasMyki == hasMyKiTopUp) {
+
+                    // creating location object from above details for a single line
+                    loc = LocationMelbourne(
+                        typeId,
+                        departureTime,
+                        name,
+                        latitude,
+                        longitude,
+                        isExpress,
+                        hasMyKiTopUp
+                    )
 
 
-                //Logic to know if it is running for the first time
-                if(i==0) {
-                    //if first time, create an array list of the object
-                    list = arrayListOf(loc)
-                } else {
-                    //if not the first time, add the location object to the list
-                    list.add(loc)
+                    //Logic to know if it is running for the first time
+                    if(list == null) {
+                        //if first time, create an array list of the object
+                        list = arrayListOf(loc)
+                    } else {
+                        //if not the first time, add the location object to the list
+                        list.add(loc)
+
+                    }
 
                 }
+
+
             }
 
             //Finally assign the list to the main list accessible to return

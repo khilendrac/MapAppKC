@@ -2,6 +2,7 @@ package com.example.khilendra.mapappkc
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.khilendra.mapappkc.data.LocationMelbourne
+import com.example.khilendra.mapappkc.source.JsonParsing
 import io.mockk.mockk
 import org.junit.Assert.*
 import org.junit.Rule
@@ -21,7 +22,6 @@ class MapDataUnitTest {
     var rule: TestRule = InstantTaskExecutorRule()
 
 
-    //var locationService = mockk<LocationService>()
 
     @Test
     fun confirmFlinders_outputsFlinders () {
@@ -38,6 +38,8 @@ class MapDataUnitTest {
         assertEquals("Flinders", location.toString())
     }
 
+
+
     @Test
     fun searchForFlinders_returnsFlinders() {
         //This function will search for Flinders
@@ -47,15 +49,14 @@ class MapDataUnitTest {
     }
     private fun givenAFeedOfMapDataAreAvaliable() {
         mvm = MainViewModel()
-
     }
-
 
     private fun whenSearchForFlinders() {
         mvm.fetchLocations("Flinders")
     }
 
 
+    //This test is not working since I need to pass context to the JsonParsing class in order to use json file from assets
     private fun thenResultContainsFlinders() {
         var flindersFound = false
         var locs: ArrayList<LocationMelbourne> = mvm.locations

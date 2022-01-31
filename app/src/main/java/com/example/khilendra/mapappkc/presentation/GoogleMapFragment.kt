@@ -78,6 +78,9 @@ class GoogleMapFragment : Fragment() {
         //Passing the context from container to JsonParsing class in order to use the json file from assets folder
         if (container != null) {
             JsonParsing.Companion.setContext(container.getContext())
+
+            //Sending the screen variables to the JsonParsing class
+            JsonParsing.Companion.setVariables(transportType,expressOrNot,hasMykiTopUpOrNot)
         }
 
 
@@ -100,12 +103,6 @@ class GoogleMapFragment : Fragment() {
 
         return rootView
     }
-
-
-
-
-
-
 
 
 
@@ -156,13 +153,6 @@ class GoogleMapFragment : Fragment() {
 
                 //Logic to set isExpress and hasMykiTopUp from boolean types
 
-                if(isExpress == "") {
-                    isExpress = "false"
-                }
-                if(hasMyki == "") {
-                    hasMyki = "false"
-                }
-
 
                 //Getting the time zone and setting it up
                 val dt = ZonedDateTime.parse(departureTime)
@@ -201,25 +191,19 @@ class GoogleMapFragment : Fragment() {
                 var dateFormatter = DateTimeFormatter.ofPattern(pattern)
 
                 var date = dt.format(dateFormatter)
+                //Setting up the latitudes and longitudes
+                val marker = LatLng(latitude,longitude)
+                //Positioning the map
 
+                mMap.addMarker(
+                    MarkerOptions()
+                        .position(marker)
+                        .title("$name($transportationType)")
+                        .snippet("$date, $time")
+                )
 
-
-                //Condition to check if the user selection from the screen matches the data from json file fetched via Model View
-                if(transportType == transportationType && expressOrNot == isExpress && hasMykiTopUpOrNot == hasMyki) {
-                    //Setting up the latitudes and longitudes
-                    val marker = LatLng(latitude,longitude)
-                    //Positioning the map
-
-                    mMap.addMarker(
-                        MarkerOptions()
-                            .position(marker)
-                            .title("$name($transportationType)")
-                            .snippet("$date, $time")
-                    )
-
-                    //Zooming to the coordinates
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 9f))
-                }
+                //Zooming to the coordinates
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker, 9f))
 
             }
 
